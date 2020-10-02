@@ -1,10 +1,12 @@
 import time
+import re
 import random
 text = ''
-with open('bee.txt', 'r', encoding="utf8") as f:
+with open('bee2.txt', 'r', encoding="utf8") as f:
     for line in f:
         text += line
 order = 5
+# text = 'Testing for the ultra testing purposes of purple testing for words that have very wordular meanings'
 ngrams = []
 start = time.time()
 print("Initializing... ")
@@ -13,23 +15,23 @@ length = len(text)-order-1
 length_10 = length/10
 num = int(length/length_10)
 
-for i in range(len(text)-order-1):
+for i in range(len(text)-order):
     num_i = int((length-i)/length_10)
     if num_i != num:
         print(num_i+1)
         num = num_i
 
     gram = text[i:i+order]
-    index = -1
-    P = True
-    for j, item in enumerate(ngrams):
-        if gram == item[0]:
-            P = False
-            index = j
-    if P:
-        ngrams.append([gram, [text[i+order]]])
-    else:
-        ngrams[index][1].append(text[i+order])
+
+    array = re.finditer(re.escape(gram), text)
+    match_pos = [match.start()
+                 for match in array if match.start() <= len(text)-1-order]
+
+    next_chars = [text[i+order] for i in match_pos]
+
+    if not [gram, next_chars] in ngrams:
+        ngrams.append([gram, next_chars])
+
 
 print('0')
 print('Initialization took', time.time()-start, 'seconds')
