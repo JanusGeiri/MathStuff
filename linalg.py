@@ -12,8 +12,11 @@ V = Matrix([[1/4, 0], [0, 1]])
 V_2 = Matrix([[1, -2], [0, 1]])
 A = Matrix([[4, 2], [0, 1]])
 I = eye(2)
+P = Matrix([[1, 1, 1, 1, 1], [1, 2, 1, 1, 1], [
+           1, 1, 3, 1, 1], [1, 1, 1, 4, 1], [1, 1, 1, 1, 5]])
 
 
 print(V*V_2*A)
 print(A.inverse_ADJ())
 print(V*V_2*I)
+print(P.det())

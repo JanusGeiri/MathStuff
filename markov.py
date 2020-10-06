@@ -2,7 +2,7 @@ import time
 import re
 import random
 text = ''
-with open('bee2.txt', 'r', encoding="utf8") as f:
+with open('gislit.txt', 'r', encoding="utf8") as f:
     for line in f:
         text += line
 order = 5
