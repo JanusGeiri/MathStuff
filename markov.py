@@ -1,8 +1,9 @@
 import time
 import re
 import random
+from tqdm import tqdm
 text = ''
-with open('gislit.txt', 'r', encoding="utf8") as f:
+with open('gisli.txt', 'r', encoding="utf8") as f:
     for line in f:
         text += line
 order = 5
@@ -15,11 +16,11 @@ length = len(text)-order-1
 length_10 = length/10
 num = int(length/length_10)
 
-for i in range(len(text)-order):
-    num_i = int((length-i)/length_10)
-    if num_i != num:
-        print(num_i+1)
-        num = num_i
+for i in tqdm(range(len(text)-order)):
+    # num_i = int((length-i)/length_10)
+    # if num_i != num:
+    #     print(num_i+1)
+    #     num = num_i
 
     gram = text[i:i+order]
 
@@ -33,7 +34,6 @@ for i in range(len(text)-order):
         ngrams.append([gram, next_chars])
 
 
-print('0')
 print('Initialization took', time.time()-start, 'seconds')
 
 
