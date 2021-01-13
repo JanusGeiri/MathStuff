@@ -1,5 +1,5 @@
 {
     "julia.environmentPath": "/Users/chris/Documents/GitHub/MathStuff",
-    "python.pythonPath": "C:\\Users\\Mr_BadBoy\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
-    "python.dataScience.jupyterServerURI": "local"
+    "python.pythonPath": "/usr/local/bin/python3",
+    "jupyter.jupyterServerType": "local"
 }
