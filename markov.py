@@ -17,10 +17,6 @@ length_10 = length/10
 num = int(length/length_10)
 
 for i in tqdm(range(len(text)-order)):
-    # num_i = int((length-i)/length_10)
-    # if num_i != num:
-    #     print(num_i+1)
-    #     num = num_i
 
     gram = text[i:i+order]
 
