@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
 from varname import nameof
-
+from tqdm import tqdm
 
 init_investment = 1_000_000
 exp_inflation = 0.03
@@ -65,7 +65,7 @@ class Asset:
                 ' with probability of ' + prob_tap
             print(exp_profit)
             print(exp_loss + '\n')
-        return np.mean(all_profits), np.mean(losses), tap/total_sims, value
+        return all_profits
 
 
 m = 0.2
@@ -75,44 +75,22 @@ III = Asset(com=0.0199, init_com=0.01, std_dev=0.05, mean=0.1)
 
 VC = Asset(0, 0, std_dev=5, mean=-0.7)
 
-T = 5
 
-v1 = V.simulate(1_000_000, sim_time=T, print_result=True)[3]
-v2 = I.simulate(1_000_000, sim_time=T, print_result=True)[3]
+prof = []
+probs = []
+for i in tqdm(range(0, init_investment+10000, 10000)):
+    p1 = V.simulate(
+        init_investment-i, total_sims=10000, sim_time=5)
+    p2 = I.simulate(
+        i, total_sims=10000, sim_time=5)
+    profits = np.add(p1, p2)
+    prof.append(np.mean(profits))
+    probs.append(np.sqrt(np.var(profits)))
 
-plt.plot(range(len(v1)), v1, label='Asset V')
-plt.plot(range(len(v2)), v2, label='Asset I')
-plt.legend(loc=2)
+N = list(range(len(prof)))
+plt.plot(N, prof, label='Profits')
+plt.legend(loc=3)
+ax = plt.twinx()
+ax.plot(N, probs, label='Standard deviation', color='red')
+plt.legend(loc=1)
 plt.show()
-
-
-# # VC.simulate(init_investment, print_result=True, sim_time=10)
-
-# cash = 1_000_000
-# T = 40
-# # c1, l1, p1, v1 = V.simulate(cash, print_result=True, sim_time=T)
-# # I.simulate(init_investment, print_result=True, sim_time=3)
-# c2, l2, p2, v2 = III.simulate(400000, print_result=True, sim_time=1)
-
-# inflated = [cash*(1+exp_inflation)**i for i in range(T+1)]
-# test = [cash*(1+m)**i for i in range(T+1)]
-
-# totalprofit = 'Expected profit: ' + "{:,.2f} kr".format(c1+c2)
-# prob_tap = '{:.2%}'.format(p1+p2)
-# exp_loss = 'Expected loss ' + \
-#     "{:,.2f} kr".format(l1+l2) + \
-#     ' with probability of ' + prob_tap
-# print(totalprofit)
-# print(exp_loss)
-
-# plt.plot(range(len(v1)), v1)
-# plt.plot(range(len(inflated)), inflated)
-# plt.plot(range(len(v1)), test)
-# plt.show()
-
-# def gen_array(size,num_members):
-
-# def f(total_investment, risk_tolerance, *Assets):
-#     num_Assets = len(*Assets)
-#     sims = 1
-#     for k in range(sims):
